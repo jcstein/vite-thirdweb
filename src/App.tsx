@@ -57,7 +57,7 @@ function App() {
               </Text>
               {isMismatched && (
                 <Button
-                  onClick={() => switchNetwork(ChainId.Rinkeby)}
+                  onClick={() => switchNetwork?.(ChainId.Rinkeby)}
                   colorScheme="red"
                 >
                   Switch Network
