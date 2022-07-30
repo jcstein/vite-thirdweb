@@ -1,27 +1,23 @@
 import {
   useAddress,
-  useDisconnect,
-  useMetamask,
   useEditionDrop,
   useClaimNFT,
   useNetwork,
   ChainId,
   useNetworkMismatch,
-  useWalletConnect,
 } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
-import { useEnsName } from "wagmi";
+import { useAccount, useEnsName } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
 import { GiSailboat } from "react-icons/gi";
 
 function App() {
-  const address = useAddress();
+  const { address } = useAccount();
+  // const address = useAddress();
   const [walletAddress, setWalletAddress] = useState("");
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
-  const disconnectWallet = useDisconnect();
   const [, switchNetwork] = useNetwork();
   const isMismatched = useNetworkMismatch();
   const { data } = useEnsName({ address: address });
@@ -50,6 +46,7 @@ function App() {
       >
         <VStack p="8" width="100%">
           <About />
+          <ConnectButton />
           {address ? (
             <>
               <Text fontSize="lg" pb="3" textAlign="center">
@@ -91,18 +88,10 @@ function App() {
                   </Button>
                 </VStack>
               )}
-              <Button onClick={disconnectWallet} colorScheme="yellow" size="sm">
-                Disconnect Wallet
-              </Button>
             </>
           ) : (
             <VStack>
-              <Button onClick={connectWithMetamask} colorScheme="purple">
-                Connect with Metamask
-              </Button>
-              <Button onClick={connectWithWalletConnect} colorScheme="purple">
-                Connect WalletConnect
-              </Button>
+              <Text>Disconnected</Text>
             </VStack>
           )}
           <Link href="https://joshcs.lol" pt="8" isExternal>
