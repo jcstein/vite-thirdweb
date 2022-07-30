@@ -2,27 +2,43 @@ import {
   useAddress,
   useDisconnect,
   useMetamask,
-  useWalletConnect,
   useEditionDrop,
   useClaimNFT,
+  useNetwork,
+  ChainId,
+  useNetworkMismatch,
+  useWalletConnect,
 } from "@thirdweb-dev/react";
-import { VStack, Flex, Avatar, Button, Link } from "@chakra-ui/react";
+import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
+import { useEnsName } from "wagmi";
+import { useState, useEffect } from "react";
+import { GiSailboat } from "react-icons/gi";
 
 function App() {
   const address = useAddress();
+  const [walletAddress, setWalletAddress] = useState("");
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
+  const [, switchNetwork] = useNetwork();
+  const isMismatched = useNetworkMismatch();
+  const { data } = useEnsName({ address: address });
   const editionDrop = useEditionDrop(
-    "0x4BC4084f6060E106676f30Eb4731Cb77bd59A3f8"
+    "0xF1cC36db8b8C48cCe1ebb41Ca8050dd0C36c0897"
   );
   const { mutate: claimNft, isLoading, error } = useClaimNFT(editionDrop);
 
   if (error) {
     console.error("failed to claim nft", error);
   }
+
+  useEffect(() => {
+    setWalletAddress(data || (address as string));
+    console.log({ walletAddress });
+  }, [address]);
+
   return (
     <div>
       <Topbuttons />
@@ -36,25 +52,48 @@ function App() {
           <About />
           {address ? (
             <>
-              <Button onClick={disconnectWallet} colorScheme="purple">
+              <Text fontSize="lg" pb="3" textAlign="center">
+                gm {walletAddress}
+              </Text>
+              {isMismatched && (
+                <Button
+                  onClick={() => switchNetwork(ChainId.Rinkeby)}
+                  colorScheme="red"
+                >
+                  Switch Network
+                </Button>
+              )}
+              {!isMismatched && (
+                <VStack>
+                  <Button
+                    colorScheme="purple"
+                    disabled={isLoading}
+                    onClick={() =>
+                      claimNft({ to: address, tokenId: 0, quantity: 1 })
+                    }
+                    _hover={{ transform: "scale(1.1)" }}
+                    size="lg"
+                  >
+                    Claim NFT!
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    rightIcon={<GiSailboat />}
+                    onClick={() =>
+                      window.open(
+                        "https://testnets.opensea.io/assets/rinkeby/0xf1cc36db8b8c48cce1ebb41ca8050dd0c36c0897/0",
+                        "_blank"
+                      )
+                    }
+                    _hover={{ transform: "scale(1.1)" }}
+                  >
+                    View on OpenSea
+                  </Button>
+                </VStack>
+              )}
+              <Button onClick={disconnectWallet} colorScheme="yellow" size="sm">
                 Disconnect Wallet
               </Button>
-              <p>Your address: {address}</p>
-              <Button
-                colorScheme="purple"
-                disabled={isLoading}
-                onClick={() =>
-                  claimNft({ to: address, tokenId: 0, quantity: 1 })
-                }
-              >
-                Claim NFT!
-              </Button>
-              <Link
-                href="https://testnets.opensea.io/collection/jcs-edition"
-                isExternal
-              >
-                View this collection on OpenSea
-              </Link>
             </>
           ) : (
             <VStack>
@@ -67,7 +106,7 @@ function App() {
             </VStack>
           )}
           <Link href="https://joshcs.lol" pt="8" isExternal>
-            <Avatar src="/jcs.png" mx="auto" size="md" />
+            <Avatar src="/favicon.svg" mx="auto" size="md" />
           </Link>
         </VStack>
       </Flex>
