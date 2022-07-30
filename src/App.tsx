@@ -2,13 +2,12 @@ import {
   useEditionDrop,
   useClaimNFT,
   useNetworkMismatch,
-  // ThirdwebSDKProviderProps,
+  ThirdwebSDKProvider,
 } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
-// import { useAccount, useEnsName, useSigner } from "wagmi";
-import { useAccount, useEnsName } from "wagmi";
+import { useAccount, useEnsName, useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
 import { GiSailboat } from "react-icons/gi";
@@ -30,7 +29,7 @@ function App() {
   // useEffect(() => {
   //   if (signer) {
   //     void (async () => {
-  //       const sdk = ThirdwebSDKProviderProps.fromSigner(signer);
+  //       const sdk = ThirdwebSDKProvider.useSigner(signer);
   //       const nftDrop = sdk.getNFTDrop(editionDrop);
   //       claimNft(nftDrop);
   //     })();
@@ -66,8 +65,9 @@ function App() {
                     }
                     _hover={{ transform: "scale(1.1)" }}
                     size="lg"
+                    mt="3"
                   >
-                    Claim NFT!
+                    Claim JCS!
                   </Button>
                   <Button
                     colorScheme="blue"
@@ -78,7 +78,30 @@ function App() {
                         "_blank"
                       )
                     }
+                  >
+                    View on OpenSea
+                  </Button>
+                  <br />
+                  <Button
+                    colorScheme="purple"
+                    disabled={isLoading}
+                    onClick={() =>
+                      claimNft({ to: address, tokenId: 1, quantity: 1 })
+                    }
                     _hover={{ transform: "scale(1.1)" }}
+                    size="lg"
+                  >
+                    Claim Probably Nothing!
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    rightIcon={<GiSailboat />}
+                    onClick={() =>
+                      window.open(
+                        "https://testnets.opensea.io/assets/rinkeby/0xf1cc36db8b8c48cce1ebb41ca8050dd0c36c0897/1",
+                        "_blank"
+                      )
+                    }
                   >
                     View on OpenSea
                   </Button>
