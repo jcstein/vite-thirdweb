@@ -1,5 +1,4 @@
 import {
-  useAddress,
   useEditionDrop,
   useClaimNFT,
   useNetwork,
