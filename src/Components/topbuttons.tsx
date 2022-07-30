@@ -8,6 +8,7 @@ export const Topbuttons = () => {
     <Flex align="center" justify="end">
       <HStack pt="3" pr="5">
         <IconButton
+          colorScheme="purple"
           aria-label="@jcstein on GitHub"
           icon={<FaGithub />}
           onClick={() =>
