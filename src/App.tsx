@@ -3,12 +3,12 @@ import {
   useClaimNFT,
   // ThirdwebSDKProvider,
 } from "@thirdweb-dev/react";
-import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
+import { VStack, Flex, Avatar, Button, Link } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
 // import { useAccount, useEnsName, useSigner } from "wagmi";
 import { useAccount, useEnsName } from "wagmi";
-import { ConnectButton, wallet } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
 import { GiSailboat } from "react-icons/gi";
 
