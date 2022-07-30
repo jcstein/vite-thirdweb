@@ -2,7 +2,7 @@ import {
   useEditionDrop,
   useClaimNFT,
   useNetworkMismatch,
-  // ThirdwebSDKProvider,
+  // ThirdwebSDKProviderProps,
 } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
@@ -30,7 +30,7 @@ function App() {
   // useEffect(() => {
   //   if (signer) {
   //     void (async () => {
-  //       const sdk = ThirdwebSDKProvider.fromSigner(signer);
+  //       const sdk = ThirdwebSDKProviderProps.fromSigner(signer);
   //       const nftDrop = sdk.getNFTDrop(editionDrop);
   //       claimNft(nftDrop);
   //     })();
