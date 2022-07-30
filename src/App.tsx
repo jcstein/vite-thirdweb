@@ -2,12 +2,13 @@ import {
   useEditionDrop,
   useClaimNFT,
   useNetworkMismatch,
-  ThirdwebSDKProvider,
+  // ThirdwebSDKProvider,
 } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
-import { useAccount, useEnsName, useSigner } from "wagmi";
+// import { useAccount, useEnsName, useSigner } from "wagmi";
+import { useAccount, useEnsName } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
 import { GiSailboat } from "react-icons/gi";
