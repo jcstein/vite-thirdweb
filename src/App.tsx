@@ -24,7 +24,7 @@ function App() {
   const disconnectWallet = useDisconnect();
   const [, switchNetwork] = useNetwork();
   const isMismatched = useNetworkMismatch();
-  const { data } = useEnsName({ address: address });
+  const { data, isError, isFetching } = useEnsName({ address: address });
   const editionDrop = useEditionDrop(
     "0xF1cC36db8b8C48cCe1ebb41Ca8050dd0C36c0897"
   );
