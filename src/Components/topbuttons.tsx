@@ -1,5 +1,5 @@
 import { IconButton, Flex, HStack } from "@chakra-ui/react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun, FaGithub } from "react-icons/fa";
 import { useColorMode } from "@chakra-ui/react";
 
 export const Topbuttons = () => {
@@ -7,6 +7,13 @@ export const Topbuttons = () => {
   return (
     <Flex align="center" justify="end">
       <HStack pt="3" pr="5">
+        <IconButton
+          aria-label="@jcstein on GitHub"
+          icon={<FaGithub />}
+          onClick={() =>
+            window.open("https://github.com/jcstein/vite-thirdweb", "_blank")
+          }
+        />
         <IconButton
           onClick={toggleColorMode}
           aria-label={`Switch from ${colorMode} mode`}
