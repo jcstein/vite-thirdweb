@@ -78,7 +78,12 @@ root.render(
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme={midnightTheme()} coolMode>
         <ChakraProvider theme={theme}>
-          <ThirdwebProvider desiredChainId={activeChainId}>
+          <ThirdwebProvider
+            desiredChainId={activeChainId}
+            walletConnectors={[
+              { name: "injected", options: { shimDisconnect: false } },
+            ]}
+          >
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <App />
           </ThirdwebProvider>

@@ -1,13 +1,13 @@
 import {
   useEditionDrop,
   useClaimNFT,
-  useNetwork,
-  ChainId,
   useNetworkMismatch,
+  // ThirdwebSDKProvider,
 } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link, Text } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
+// import { useAccount, useEnsName, useSigner } from "wagmi";
 import { useAccount, useEnsName } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
@@ -15,19 +15,27 @@ import { GiSailboat } from "react-icons/gi";
 
 function App() {
   const { address } = useAccount();
-  // const address = useAddress();
   const [walletAddress, setWalletAddress] = useState("");
-  const [, switchNetwork] = useNetwork();
   const isMismatched = useNetworkMismatch();
   const { data } = useEnsName({ address: address });
   const editionDrop = useEditionDrop(
     "0xF1cC36db8b8C48cCe1ebb41Ca8050dd0C36c0897"
   );
   const { mutate: claimNft, isLoading, error } = useClaimNFT(editionDrop);
-
   if (error) {
     console.error("failed to claim nft", error);
   }
+  // const { data: signer } = useSigner();
+
+  // useEffect(() => {
+  //   if (signer) {
+  //     void (async () => {
+  //       const sdk = ThirdwebSDKProvider.fromSigner(signer);
+  //       const nftDrop = sdk.getNFTDrop(editionDrop);
+  //       claimNft(nftDrop);
+  //     })();
+  //   }
+  // }, [signer]);
 
   useEffect(() => {
     setWalletAddress(data || (address as string));
@@ -48,17 +56,6 @@ function App() {
           <ConnectButton />
           {address ? (
             <>
-              <Text fontSize="lg" pb="3" textAlign="center">
-                gm {walletAddress}
-              </Text>
-              {isMismatched && (
-                <Button
-                  onClick={() => switchNetwork?.(ChainId.Rinkeby)}
-                  colorScheme="red"
-                >
-                  Switch Network
-                </Button>
-              )}
               {!isMismatched && (
                 <VStack>
                   <Button
@@ -89,9 +86,7 @@ function App() {
               )}
             </>
           ) : (
-            <VStack>
-              <Text>Disconnected</Text>
-            </VStack>
+            <Text></Text>
           )}
           <Link href="https://joshcs.lol" pt="8" isExternal>
             <Avatar src="/favicon.svg" mx="auto" size="md" />
