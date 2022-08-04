@@ -1,12 +1,7 @@
-import {
-  useEditionDrop,
-  useClaimNFT,
-  // ThirdwebSDKProvider,
-} from "@thirdweb-dev/react";
+import { useEditionDrop, useClaimNFT } from "@thirdweb-dev/react";
 import { VStack, Flex, Avatar, Button, Link } from "@chakra-ui/react";
 import { About } from "./Components/about";
 import { Topbuttons } from "./Components/topbuttons";
-// import { useAccount, useEnsName, useSigner } from "wagmi";
 import { useAccount, useEnsName } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState, useEffect } from "react";
@@ -23,17 +18,6 @@ function App() {
   if (error) {
     console.error("failed to claim nft", error);
   }
-  // const { data: signer } = useSigner();
-
-  // useEffect(() => {
-  //   if (signer) {
-  //     void (async () => {
-  //       const sdk = ThirdwebSDKProvider.useSigner(signer);
-  //       const nftDrop = sdk.getNFTDrop(editionDrop);
-  //       claimNft(nftDrop);
-  //     })();
-  //   }
-  // }, [signer]);
 
   useEffect(() => {
     setWalletAddress(data || (address as string));

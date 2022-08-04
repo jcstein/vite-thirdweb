@@ -2,11 +2,17 @@ import "./polyfills";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+import { ChainId, ThirdwebSDKProvider } from "@thirdweb-dev/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 import { ColorModeScript } from "@chakra-ui/react";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import {
+  chain,
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useSigner,
+} from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import {
@@ -71,6 +77,20 @@ const wagmiClient = createClient({
   provider,
 });
 
+function ThirdwebProvider({ wagmiClient, children }: any) {
+  const { data: signer } = useSigner();
+  return (
+    <ThirdwebSDKProvider
+      desiredChainId={activeChainId}
+      signer={signer as any}
+      provider={wagmiClient.provider}
+      queryClient={wagmiClient.queryClient as any}
+    >
+      {children}
+    </ThirdwebSDKProvider>
+  );
+}
+
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
@@ -78,12 +98,7 @@ root.render(
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme={midnightTheme()} coolMode>
         <ChakraProvider theme={theme}>
-          <ThirdwebProvider
-            desiredChainId={activeChainId}
-            walletConnectors={[
-              { name: "injected", options: { shimDisconnect: false } },
-            ]}
-          >
+          <ThirdwebProvider wagmiClient={wagmiClient}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <App />
           </ThirdwebProvider>
